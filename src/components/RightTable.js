@@ -7,7 +7,7 @@ import { PropertiesProperty } from '~/kit/PropertiesProperty';
 import { PropertiesName } from '~/kit/PropertiesName';
 import { PropertiesValue } from '~/kit/PropertiesValue';
 
-const SALARY = 3000;
+const SALARY = 2500;
 
 export const RightTable = () => (
     <Intl>
