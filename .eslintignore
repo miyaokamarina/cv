@@ -1,0 +1,51 @@
+#############
+# IDE trash #
+#############
+
+# IntelliJ IDEA
+
+.idea/
+
+*.iml
+
+# Visual Studio Code
+
+.vscode/
+
+# Cloud9
+
+.c9/
+
+###################
+# Ecosystem trash #
+###################
+
+# NodeJS
+
+node_modules/
+
+# Flow
+
+flow-typed/
+
+# Various
+
+*.log
+
+#################
+# Project trash #
+#################
+
+build/
+cache/
+coverage/
+dist/
+temp/
+var/
+
+############
+# Unignore #
+############
+
+!.babelrc.js
+!.eslintrc.js
