@@ -59,7 +59,7 @@ const loadPolyfills = async () => {
     }
 
     try {
-        await Promise.all(required).map(({ load }) => load());
+        await Promise.all(required.map(({ load }) => load()));
         log.ok('Required polyfills successfully loaded.');
     } catch (e) {
         log.error('Polyfills loading failed.', e);

@@ -18,7 +18,7 @@ export const sizes: (Size, ?(Size, ?boolean) => mixed) => boolean = (size, sette
     const mql: MediaQueryList = (mqls.get(size): HACK);
 
     if (setter) {
-        mql.addEventListener('change', (event: MediaQueryListEvent) => {
+        mql.addListener((event: MediaQueryListEvent) => {
             setter(size, event.matches);
         });
     }

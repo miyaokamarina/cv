@@ -14,7 +14,7 @@ export const isTouch: (?(?boolean) => mixed) => boolean = setter => {
     }
 
     if (setter) {
-        mql.addEventListener('change', (event: MediaQueryListEvent) => {
+        mql.addListener((event: MediaQueryListEvent) => {
             setter(event.matches);
         });
     }
