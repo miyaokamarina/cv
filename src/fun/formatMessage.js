@@ -3,17 +3,16 @@
 import * as React from 'react';
 
 import { last } from '~/fun/last';
-import { memoize } from '~/fun/memoize';
 
 import type { Node } from 'react';
 
 import type { FormatDate, FormatNumber, SelectOrdinal, SelectPlural } from './formatMessage.types';
 import type { StrictMessage, WeakMessage } from './plural.types';
 
-const mkDateFormatter = memoize((locale, options) => new Intl.DateTimeFormat(locale, options));
-const mkNumFormatter = memoize((locale, options) => new Intl.NumberFormat(locale, options));
-const mkOrdinal = memoize((locale, options) => new Intl.PluralRules(locale, { ...options, type: 'ordinal' }));
-const mkCardinal = memoize((locale, options) => new Intl.PluralRules(locale, { ...options, type: 'cardinal' }));
+const mkDateFormatter = (locale, options) => new Intl.DateTimeFormat(locale, options);
+const mkNumFormatter = (locale, options) => new Intl.NumberFormat(locale, options);
+const mkOrdinal = (locale, options) => new Intl.PluralRules(locale, { ...options, type: 'ordinal' });
+const mkCardinal = (locale, options) => new Intl.PluralRules(locale, { ...options, type: 'cardinal' });
 
 const date: string => FormatDate = locale => (v, options) => mkDateFormatter(locale, options).format(v);
 const number: string => FormatNumber = locale => (v, options) => mkNumFormatter(locale, options).format(v);
