@@ -4,19 +4,15 @@ import * as React from 'react';
 
 import { Section } from '~/kit/Section';
 import { H2 } from '~/kit/H2';
-import { Intl } from '~/kit/Intl';
+import { withKiririn } from '~/kiririntl';
 
-export const About = () => (
-    <Intl>
-        {__ => (
-            <Section>
-                <H2>{__`About // header`}</H2>
-                <p>
-                    {__`Built with React, Redux, Flow, Emotion, Ramda, `}
-                    {__`webpack, ESLint (custom config), Prettier, `}
-                    {__`Twemoji, EmojiOne, Font Awesome 5 Pro.`}
-                </p>
-            </Section>
-        )}
-    </Intl>
-);
+export const About = withKiririn(({ kiririn }) => (
+    <Section>
+        <H2>{kiririn`About // header`}</H2>
+        <p>
+            {kiririn`Built with React, Redux, Flow, Emotion, Ramda, `}
+            {kiririn`webpack, ESLint (custom config), Prettier, `}
+            {kiririn`Twemoji, EmojiOne, Font Awesome 5 Pro.`}
+        </p>
+    </Section>
+));

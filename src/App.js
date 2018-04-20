@@ -3,10 +3,6 @@
 import * as React from 'react';
 import { Provider } from 'react-redux';
 
-import { FALLBACK_LANGUAGE as fallback } from '~/data/config';
-import { locales } from '~/data/locales';
-
-import { Intl } from '~/kit/Intl';
 import { Theme } from '~/kit/Theme';
 import { Media } from '~/kit/Media';
 import { Screen } from '~/kit/Screen';
@@ -20,13 +16,14 @@ import { BuzzwordsSection } from '~/components/BuzzwordsSection';
 import { XpSection } from '~/components/XpSection';
 import { MenuSwitcher } from '~/components/MenuSwitcher';
 import { HeadingSection } from '~/components/HeadingSection';
+import { Kiririn } from '~/kiririntl';
 
 import { store } from '~/store';
 
 export const App = () => (
     <Provider {...{ store }}>
-        <Intl.Provider {...{ store, fallback, locales }}>
-            <Theme.Provider {...{ store, theme: 'dark' }}>
+        <Theme.Provider {...{ store, theme: 'dark' }}>
+            <Kiririn.Provider>
                 <Page>
                     <HeadingSection />
                     <BuzzwordsSection />
@@ -44,7 +41,7 @@ export const App = () => (
                         <MenuSwitcher />
                     </Media.LteL>
                 </Screen>
-            </Theme.Provider>
-        </Intl.Provider>
+            </Kiririn.Provider>
+        </Theme.Provider>
     </Provider>
 );

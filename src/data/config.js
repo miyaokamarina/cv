@@ -4,9 +4,6 @@ import type { SizeLimits } from './config.types.js';
 
 export { ExactSizeLimits, ExactSize, SizeLimits, Size, Sizes, ExactSizes } from './config.types';
 
-export const FALLBACK_LANGUAGE = 'en';
-export const DEFAULT_LANGUAGE = 'en';
-
 const min = 50;
 
 const u = 0;

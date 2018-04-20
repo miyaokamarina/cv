@@ -58,3 +58,11 @@ declare class EventTarget {
     cancelBubble: boolean;
     initEvent(eventTypeArg: string, canBubbleArg: boolean, cancelableArg: boolean): void;
 }
+
+type $If<X: boolean, Then, Else = empty> = $Call<((true, Then, Else) => Then) & ((false, Then, Else) => Else), X, Then, Else>;
+
+type $Not<X: boolean> = $If<X, false, true>;
+type $And<X: boolean, Y: boolean> = $If<X, Y, false>;
+type $Or<X: boolean, Y: boolean> = $If<X, true, Y>;
+
+type $Gte<X, Y> = $Call<(($Subtype<X>) => true) & (mixed => false), Y>;
