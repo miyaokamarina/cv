@@ -15,7 +15,7 @@ import './HeadingSection.css';
 
 export const HeadingSection = withTl(({ tl }) => (
     <Section aria-label={tl`Yuri Zemskov, the JS magical girl` as string} {...cn('HeadingSection')}>
-        <H level={1}>{tl`Marina Miyaoka, the JS magical girl`}</H>
+        <H level={1}>{tl`Yuri Zemskov, the JS magical girl`}</H>
         <div {...cn('print')}>
             <Split>
                 <Split.Item>
