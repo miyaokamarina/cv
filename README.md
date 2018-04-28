@@ -1,5 +1,10 @@
 # Marina Miyaoka
 
+## Font Awesome 5
+
+You should have Font Awesome 5 Pro license or fall back to Font Awesome Free
+to build the app.
+
 ## Building
 
 Clone the repo, then:
@@ -49,3 +54,7 @@ you should remove the corresponding `.pdf` and `.d.ts` file
 in `src/components/`.
 
 _Of course, there is also intent to automate this._
+
+## License
+
+MIT, except select Font Awesome 5 Pro icons (`src/kit/Icon.{ttf,woff,woff2}`).
