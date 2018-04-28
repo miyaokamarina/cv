@@ -1,0 +1,22 @@
+@import (less) '../kit/Theme.css';
+
+.Menu {
+    display: flex;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    overflow-y: scroll;
+    padding: 45vh @cell-s2 @cell-i-l2 + @cell-s2 * 2 @cell-s2;
+    background-color: @dark-backdrop;
+
+    .touch({padding: 45vh @cell-s2 @cell-t-l2 + @cell-s2 * 2 @cell-s2;});
+
+    .light({background-color: @light-backdrop;});
+
+    &__Inner {
+        margin-left: auto;
+        margin-right: auto;
+    }
+}

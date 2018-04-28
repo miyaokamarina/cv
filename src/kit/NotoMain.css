@@ -1,0 +1,41 @@
+@font-face {
+    font-family: main;
+    font-weight: 100;
+    src: url(./NotoMain100.woff2) format('woff2'), url(./NotoMain100.woff) format('woff'), url(./NotoMain100.ttf) format('truetype');
+    unicode-range: U+0020-2011;
+}
+
+@font-face {
+    font-family: main;
+    font-weight: 200;
+    src: url(./NotoMain200.woff2) format('woff2'), url(./NotoMain200.woff) format('woff'), url(./NotoMain200.ttf) format('truetype');
+    unicode-range: U+0020-044C;
+}
+
+@font-face {
+    font-family: main;
+    font-weight: 300;
+    src: url(./NotoMain300.woff2) format('woff2'), url(./NotoMain300.woff) format('woff'), url(./NotoMain300.ttf) format('truetype');
+    unicode-range: U+0020-201D;
+}
+
+@font-face {
+    font-family: main;
+    font-weight: 400;
+    src: url(./NotoMain400.woff2) format('woff2'), url(./NotoMain400.woff) format('woff'), url(./NotoMain400.ttf) format('truetype');
+    unicode-range: U+0020-221E;
+}
+
+@font-face {
+    font-family: main;
+    font-weight: 500;
+    src: url(./NotoMain500.woff2) format('woff2'), url(./NotoMain500.woff) format('woff'), url(./NotoMain500.ttf) format('truetype');
+    unicode-range: U+0020-044F;
+}
+
+@font-face {
+    font-family: main;
+    font-weight: 700;
+    src: url(./NotoMain700.woff2) format('woff2'), url(./NotoMain700.woff) format('woff'), url(./NotoMain700.ttf) format('truetype');
+    unicode-range: U+0065-0074;
+}

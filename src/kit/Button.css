@@ -1,0 +1,26 @@
+@import (less) './Theme.css';
+
+.Button:extend(.active all):extend(.focus all):extend(.glow all) {
+    border-radius: @cell-s4;
+    display: inline-block;
+    text-align: center;
+    cursor: default;
+    padding: @cell-s5 @cell-i-s2;
+    user-select: none;
+    text-decoration: none;
+
+    .touch({
+        padding: @cell-s3 @cell-t-s2;
+    });
+
+    & > .Icon:first-child {
+        position: relative;
+        margin-left: -(@cell-i-s2 - @cell-i-s3);
+        margin-right: @cell-i-s3 - @cell-i-s5;
+
+        .touch({
+            margin-left: -(@cell-t-s2 - @cell-t-s3);
+            margin-right: @cell-t-s3 - @cell-t-s5;
+        });
+    }
+}

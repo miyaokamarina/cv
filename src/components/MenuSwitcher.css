@@ -1,0 +1,8 @@
+@import (less) '../kit/Theme.css';
+
+.MenuSwitcher {
+    &__Fab {
+        right: @cell-s2;
+        bottom: @cell-s2;
+    }
+}

@@ -1,0 +1,48 @@
+@import (less) '../kit/Theme.css';
+
+.Page {
+    width: 100%;
+    display: flex;
+
+    .print({
+        display: block;
+    });
+
+    &__Article {
+        flex-grow: 1;
+        padding: @cell;
+
+        .s1({
+            padding: @cell-s2;
+        });
+
+        .gte-l({
+            width: @cell * 30;
+            flex-grow: 0;
+            margin: @cell auto;
+            padding: 0 @cell;
+
+            box-shadow: inset -1px 0 0 @active-bg-primary, inset -2px 0 0 @dark-bg, inset -3px 0 0 @active-bg-primary, inset 1px 0 0 @active-bg-primary,
+                inset 2px 0 0 @dark-bg, inset 3px 0 0 @active-bg-primary;
+
+            .light({
+                box-shadow: inset -1px 0 0 @active-bg-primary, inset -2px 0 0 @light-bg, inset -3px 0 0 @active-bg-primary, inset 1px 0 0 @active-bg-primary,
+                    inset 2px 0 0 @light-bg, inset 3px 0 0 @active-bg-primary;
+            });
+        });
+
+        .lte-l({
+            margin-bottom: @cell-i-l2 + @cell-s2 * 2;
+        });
+
+        .print({
+            padding: 0;
+        });
+
+        :root.menu & {
+            .lte-l({
+                filter: blur(2px);
+            });
+        }
+    }
+}

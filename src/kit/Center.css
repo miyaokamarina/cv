@@ -1,0 +1,9 @@
+@import (less) './Theme.css';
+
+.Center {
+    display: flex;
+
+    &__Inner {
+        margin: auto;
+    }
+}

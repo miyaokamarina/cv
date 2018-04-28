@@ -1,0 +1,23 @@
+@import (less) '../kit/Theme.css';
+
+.HeadingSection {
+    & .print {
+        margin-top: @cell;
+        margin-bottom: @cell-s2;
+
+        .Avatar {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+    }
+
+    & .gte-m .Split {
+        &__Item:first-child {
+            margin-right: @cell-s2;
+        }
+
+        &__Item:last-child {
+            margin-left: @cell-s2;
+        }
+    }
+}

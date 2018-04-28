@@ -461,6 +461,6 @@ export const ${name} = () => (
 
 const ready = twemojiMap.map(([x, name, label, fullCode]) => [name, template(x, label, name, fullCode)]);
 
-ready.forEach(([x, y]) => writeFileSync(`./src/emoji/${x}.js`, y));
+ready.forEach(([x, y]) => writeFileSync(`./src/emoji/${x}.tsx`, y));
 
 // console.log(ready[0][1]);

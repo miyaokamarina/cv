@@ -1,0 +1,7 @@
+@import (less) '../kit/Theme.css';
+
+.Xps {
+    &__Strong {
+        font-weight: 500;
+    }
+}

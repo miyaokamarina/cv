@@ -1,0 +1,22 @@
+@import (less) './Theme.css';
+
+.Section {
+    margin-top: @cell;
+    page-break-inside: avoid;
+    page-break-after: auto;
+
+    &:first-child {
+        margin-top: 0;
+    }
+
+    & > h1,
+    & > h2,
+    & > h3,
+    & > h4,
+    & > h5,
+    & > h6 {
+        &:first-child {
+            margin-bottom: @cell-s2;
+        }
+    }
+}

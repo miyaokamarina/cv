@@ -1,0 +1,16 @@
+@import (less) '../kit/Theme.css';
+
+.UselessFacts {
+    .Properties {
+        width: 100%;
+
+        &__K {
+            width: 45%;
+            text-align: right;
+        }
+
+        &__V {
+            width: 55%;
+        }
+    }
+}

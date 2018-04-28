@@ -1,0 +1,1195 @@
+@plugin '../../lib/hsluv';
+
+@import (less) './NotoMain.css';
+@import (less) './NotoJap.css';
+
+// region # Utilities
+
+.each(@list, @rules: {}) {
+    .each(@list, @rules, 1);
+}
+
+.each(@list, @rules, @i) when (@i <= length(@list)) {
+    @x: extract(@list, @i);
+    @rules();
+
+    .each(@list, @rules, @i + 1);
+}
+
+@outline-step: 1 / 10;
+
+.outline(@color, @w) {
+    .outline(@color, unit(@w), unit(-@w));
+}
+
+.outline(@color, @w, @x) when (@x <= @w) {
+    .outline(@color, @w, @x + @outline-step);
+    .outline(@color, @w, @x, -@w);
+}
+
+.outline(@color, @w, @x, @y) when (@y <= @w) {
+    .outline(@color, @w, @x, @y + @outline-step);
+    .outline(@color, @w, @x, @y, sqrt(@x * @x + @y * @y));
+}
+
+.outline(@color, @w, @x, @y, @d) when (@d <= @w) {
+    text-shadow+: unit(@x, px) unit(@y, px) 0 @color;
+}
+
+.outline(@color, @w, @x, @y, @d) when (@d <= (@w + @outline-step)) and (0 < (@d - @w)) {
+    @a: sqrt(@d - @w);
+    text-shadow+: unit(@x, px) unit(@y, px) 0 ~'color(@{color} alpha(percentage(@{a})))';
+}
+
+.glow {
+    --r: 0;
+    --x: 50%;
+    --y: 50%;
+    background-image: radial-gradient(var(--r) var(--r) at var(--x) var(--y), var(--glow), transparent);
+
+    &:hover {
+        --r: @cell-i-l3;
+
+        .touch({
+            --r: @cell-t-l3;
+        });
+
+        .no-hover({
+            --r: 0 !important;
+        });
+    }
+}
+
+// endregion # Utilities
+
+// region # Grid cell sizes
+
+// region ## Non-interactive cell sizes
+
+@cell: 20px;
+
+@cell-l1: @cell * (1 + 1 / 3); // 26.67
+@cell-l2: @cell * 2; // 40
+@cell-l3: @cell * 3; // 60
+@cell-l4: @cell * 4; // 80
+@cell-l5: @cell * 5; // 100
+@cell-l6: @cell * 6; // 120
+
+@cell-s1: @cell * 0.8; // 16
+@cell-s2: @cell * 0.5; // 10
+@cell-s3: @cell * 0.25; // 5
+@cell-s4: @cell * 0.15; // 3
+@cell-s5: @cell * 0.1; // 2
+@cell-s6: @cell * 0.05; // 1
+
+// endregion ## Non-interactive cell sizes
+
+// region ## Non-touch interactive cell sizes
+
+@cell-i: 20px;
+
+@cell-i-l1: @cell-i * (1 + 1 / 3);
+@cell-i-l2: @cell-i * 2;
+@cell-i-l3: @cell-i * 3;
+@cell-i-l4: @cell-i * 4;
+@cell-i-l5: @cell-i * 5;
+@cell-i-l6: @cell-i * 6;
+
+@cell-i-s1: @cell-i * 0.8;
+@cell-i-s2: @cell-i * 0.5;
+@cell-i-s3: @cell-i * 0.25;
+@cell-i-s4: @cell-i * 0.15;
+@cell-i-s5: @cell-i * 0.1;
+@cell-i-s6: @cell-i * 0.05;
+
+// endregion ## Non-touch interactive cell sizes
+
+// region ## Touch interactive cell sizes
+
+@cell-t: 30px;
+
+@cell-t-l1: @cell-t * (1 + 1 / 3);
+@cell-t-l2: @cell-t * 2;
+@cell-t-l3: @cell-t * 3;
+@cell-t-l4: @cell-t * 4;
+@cell-t-l5: @cell-t * 5;
+@cell-t-l6: @cell-t * 6;
+
+@cell-t-s1: @cell-t * 0.8;
+@cell-t-s2: @cell-t * 0.5;
+@cell-t-s3: @cell-t * 0.25;
+@cell-t-s4: @cell-t * 0.15;
+@cell-t-s5: @cell-t * 0.1;
+@cell-t-s6: @cell-t * 0.05;
+
+// endregion ## Touch interactive cell sizes
+
+// endregion # Grid cell sizes
+
+// region # Typography
+
+@font-size: @cell * 0.6;
+
+@font-size-l1: @font-size * 1.5;
+@font-size-l2: @font-size * 2;
+
+@font-height: @cell;
+
+@font-height-l1: @cell-l1;
+@font-height-l2: @cell-l2;
+
+@font-weight: 400;
+
+@font-family: main, sans-serif;
+
+// endregion # Typography
+
+// region # Colors
+
+// region ## Common
+
+@dark-fg: #fff;
+@dark-bg: hsluv(0, 0%, 16.67%);
+@dark-backdrop: rgba(0, 0, 0, 0.5);
+
+@light-fg: #000;
+@light-bg: #fff;
+@light-backdrop: rgba(255, 255, 255, 0.5);
+
+// endregion ## Common
+
+// region ## Levels
+
+@levels: primary, secondary, ok, info, warn, error;
+
+.levels(@rules) {
+    .each(@levels, @rules);
+}
+
+// endregion ## Levels
+
+// region ## Hue values
+@primary: 350;
+@secondary: 190;
+@info: 260;
+@ok: 140;
+@warn: 70;
+@error: 10;
+// endregion ## Hue values
+
+// region ## Focus
+
+@dark-focus-l: 33.33%;
+
+@dark-focus-primary: 0 0 0 2px hsluv(@primary, 100%, @dark-focus-l);
+@dark-focus-secondary: 0 0 0 2px hsluv(@secondary, 100%, @dark-focus-l);
+@dark-focus-ok: 0 0 0 2px hsluv(@ok, 100%, @dark-focus-l);
+@dark-focus-info: 0 0 0 2px hsluv(@info, 100%, @dark-focus-l);
+@dark-focus-warn: 0 0 0 2px hsluv(@warn, 100%, @dark-focus-l);
+@dark-focus-error: 0 0 0 2px hsluv(@error, 100%, @dark-focus-l);
+
+@light-focus-l: 66.67%;
+
+@light-focus-primary: 0 0 0 2px hsluv(@primary, 100%, @light-focus-l);
+@light-focus-secondary: 0 0 0 2px hsluv(@secondary, 100%, @light-focus-l);
+@light-focus-ok: 0 0 0 2px hsluv(@ok, 100%, @light-focus-l);
+@light-focus-info: 0 0 0 2px hsluv(@info, 100%, @light-focus-l);
+@light-focus-warn: 0 0 0 2px hsluv(@warn, 100%, @light-focus-l);
+@light-focus-error: 0 0 0 2px hsluv(@error, 100%, @light-focus-l);
+
+.focus:focus {
+    box-shadow: 0 0 transparent;
+    outline: none;
+    z-index: 1;
+
+    .levels({
+        .keyboard({
+            &.@{x} {
+                @var: 'dark-focus-@{x}';
+                box-shadow: @@var;
+            }
+
+            .light(true, {
+                &.@{x} {
+                    @var: 'light-focus-@{x}';
+                    box-shadow: @@var;
+                }
+            });
+        });
+    });
+}
+
+// endregion ## Focus
+
+// region ## Active elements
+
+@active-glow: rgba(255, 255, 255, 0.5);
+@active-fg: #fff;
+@active-bg-l: 50%;
+
+@active-bg-primary: hsluv(@primary, 100%, @active-bg-l);
+@active-bg-secondary: hsluv(@secondary, 100%, @active-bg-l);
+@active-bg-ok: hsluv(@ok, 100%, @active-bg-l);
+@active-bg-info: hsluv(@info, 100%, @active-bg-l);
+@active-bg-warn: hsluv(@warn, 100%, @active-bg-l);
+@active-bg-error: hsluv(@error, 100%, @active-bg-l);
+
+.active {
+    --glow: @active-glow;
+    color: @active-fg;
+
+    .levels({
+        &.@{x} {
+            @var: 'active-bg-@{x}';
+            background-color: @@var;
+        }
+    });
+
+    .light({
+        --glow: @active-glow;
+        color: @active-fg;
+
+        .levels({
+            &.@{x} {
+                @var: 'active-bg-@{x}';
+                background-color: @@var;
+            }
+        });
+    });
+}
+
+// endregion ## Active elements
+
+// region ## Active elements (alternative)
+.alt:extend(.plain all) {
+    background-color: @dark-plain-bg;
+
+    .levels({
+        &.@{x} {
+            @var: 'active-bg-@{x}';
+            box-shadow: inset 0 0 0 1px @@var;
+        }
+    });
+
+    .light({
+        background-color: @light-plain-bg;
+    });
+}
+// endregion ## Active elements (alternative)
+
+// region ## Active elements (plain)
+
+@dark-plain-glow-l: 33.33%;
+@dark-plain-fg-l: 66.67%;
+@dark-plain-bg-l: 16.67%;
+
+@dark-plain-glow-primary: hsluv(@primary, 100%, @dark-plain-glow-l);
+@dark-plain-glow-secondary: hsluv(@secondary, 100%, @dark-plain-glow-l);
+@dark-plain-glow-ok: hsluv(@ok, 100%, @dark-plain-glow-l);
+@dark-plain-glow-info: hsluv(@info, 100%, @dark-plain-glow-l);
+@dark-plain-glow-warn: hsluv(@warn, 100%, @dark-plain-glow-l);
+@dark-plain-glow-error: hsluv(@error, 100%, @dark-plain-glow-l);
+
+@dark-plain-fg-primary: hsluv(@primary, 100%, @dark-plain-fg-l);
+@dark-plain-fg-secondary: hsluv(@secondary, 100%, @dark-plain-fg-l);
+@dark-plain-fg-ok: hsluv(@ok, 100%, @dark-plain-fg-l);
+@dark-plain-fg-info: hsluv(@info, 100%, @dark-plain-fg-l);
+@dark-plain-fg-warn: hsluv(@warn, 100%, @dark-plain-fg-l);
+@dark-plain-fg-error: hsluv(@error, 100%, @dark-plain-fg-l);
+
+@dark-plain-bg: hsluv(0, 0%, @dark-plain-bg-l);
+
+@light-plain-glow-l: 80%;
+@light-plain-fg-l: 33.33%;
+@light-plain-bg-l: 100%;
+
+@light-plain-glow-primary: hsluv(@primary, 100%, @light-plain-glow-l);
+@light-plain-glow-secondary: hsluv(@secondary, 100%, @light-plain-glow-l);
+@light-plain-glow-ok: hsluv(@ok, 100%, @light-plain-glow-l);
+@light-plain-glow-info: hsluv(@info, 100%, @light-plain-glow-l);
+@light-plain-glow-warn: hsluv(@warn, 100%, @light-plain-glow-l);
+@light-plain-glow-error: hsluv(@error, 100%, @light-plain-glow-l);
+
+@light-plain-fg-primary: hsluv(@primary, 100%, @light-plain-fg-l);
+@light-plain-fg-secondary: hsluv(@secondary, 100%, @light-plain-fg-l);
+@light-plain-fg-ok: hsluv(@ok, 100%, @light-plain-fg-l);
+@light-plain-fg-info: hsluv(@info, 100%, @light-plain-fg-l);
+@light-plain-fg-warn: hsluv(@warn, 100%, @light-plain-fg-l);
+@light-plain-fg-error: hsluv(@error, 100%, @light-plain-fg-l);
+
+@light-plain-bg: #fff;
+
+.plain {
+    .levels({
+        &.@{x} {
+            @var-glow: 'dark-plain-glow-@{x}';
+            @var-fg: 'dark-plain-fg-@{x}';
+            --glow: @@var-glow;
+            color: @@var-fg;
+        }
+
+        .light({
+            &.@{x} {
+                @var-glow: 'light-plain-glow-@{x}';
+                @var-fg: 'light-plain-fg-@{x}';
+                --glow: @@var-glow;
+                color: @@var-fg;
+            }
+        });
+    });
+}
+
+// endregion ## Active elements (plain)
+
+// region ## Static elements
+
+@dark-static-fg-l: 75%;
+@dark-static-bg-l: 16.67%;
+
+@dark-static-fg-primary: hsluv(@primary, 100%, @dark-static-fg-l);
+@dark-static-fg-secondary: hsluv(@secondary, 100%, @dark-static-fg-l);
+@dark-static-fg-ok: hsluv(@ok, 100%, @dark-static-fg-l);
+@dark-static-fg-info: hsluv(@info, 100%, @dark-static-fg-l);
+@dark-static-fg-warn: hsluv(@warn, 100%, @dark-static-fg-l);
+@dark-static-fg-error: hsluv(@error, 100%, @dark-static-fg-l);
+
+@dark-static-bg-primary: hsluv(@primary, 100%, @dark-static-bg-l);
+@dark-static-bg-secondary: hsluv(@secondary, 100%, @dark-static-bg-l);
+@dark-static-bg-ok: hsluv(@ok, 100%, @dark-static-bg-l);
+@dark-static-bg-info: hsluv(@info, 100%, @dark-static-bg-l);
+@dark-static-bg-warn: hsluv(@warn, 100%, @dark-static-bg-l);
+@dark-static-bg-error: hsluv(@error, 100%, @dark-static-bg-l);
+
+@light-static-fg-l: 20%;
+@light-static-bg-l: 90%;
+
+@light-static-fg-primary: hsluv(@primary, 100%, @light-static-fg-l);
+@light-static-fg-secondary: hsluv(@secondary, 100%, @light-static-fg-l);
+@light-static-fg-ok: hsluv(@ok, 100%, @light-static-fg-l);
+@light-static-fg-info: hsluv(@info, 100%, @light-static-fg-l);
+@light-static-fg-warn: hsluv(@warn, 100%, @light-static-fg-l);
+@light-static-fg-error: hsluv(@error, 100%, @light-static-fg-l);
+
+@light-static-bg-primary: hsluv(@primary, 100%, @light-static-bg-l);
+@light-static-bg-secondary: hsluv(@secondary, 100%, @light-static-bg-l);
+@light-static-bg-ok: hsluv(@ok, 100%, @light-static-bg-l);
+@light-static-bg-info: hsluv(@info, 100%, @light-static-bg-l);
+@light-static-bg-warn: hsluv(@warn, 100%, @light-static-bg-l);
+@light-static-bg-error: hsluv(@error, 100%, @light-static-bg-l);
+
+.static:extend(.active all) {
+    // .levels({
+    //     &.@{x} {
+    //         @var: 'dark-plain-fg-@{x}';
+    //         box-shadow: inset 0 0 0 1px @@var;
+    //     }
+    // });
+    //
+    // .light({
+    //     .levels({
+    //         &.@{x} {
+    //             @var: 'light-plain-fg-@{x}';
+    //             box-shadow: inset 0 0 0 1px @@var;
+    //         }
+    //     });
+    // });
+}
+
+// endregion ## Static elements
+
+// endregion # Colors
+
+// region # Media
+
+// region ## Touch interaction
+
+.touch(@rules: {}) {
+    @media (any-pointer: coarse) {
+        @rules();
+    }
+}
+
+.no-touch(@rules: {}) {
+    @media not (any-pointer: coarse) {
+        @rules();
+    }
+}
+
+.touch {
+    .no-touch({
+        display: none;
+    });
+}
+
+.no-touch {
+    .touch({
+        display: none;
+    });
+}
+
+// endregion ## Touch interaction
+
+// region ## Keyboard interaction
+
+.keyboard(@rules: {}) {
+    :root.keyboard & {
+        @rules();
+    }
+}
+
+.keyboard(@join: false, @rules: {}) when (@join) {
+    :root.keyboard& {
+        @rules();
+    }
+}
+
+.keyboard(@join: false, @rules: {}) when not (@join) {
+    :root.keyboard & {
+        @rules();
+    }
+}
+
+.no-keyboard(@rules: {}) {
+    :root:not(.keyboard) & {
+        @rules();
+    }
+}
+
+// TODO: Joinable `.no-keyboard`.
+
+.keyboard:not(:root) {
+    .no-keyboard({
+        display: none;
+    })
+}
+
+.no-keyboard:not(:root) {
+    .keyboard({
+        display: none;
+    });
+}
+
+// endregion ## Keyboard interaction
+
+// region ## Theme
+
+.light(@rules: {}) {
+    :root.light & {
+        @rules();
+    }
+
+    @media print {
+        @rules();
+    }
+}
+
+.light(@join: false, @rules: {}) when (@join) {
+    :root.light& {
+        @rules();
+    }
+
+    @media print {
+        @rules();
+    }
+}
+
+.light(@join: false, @rules: {}) when not (@join) {
+    :root.light & {
+        @rules();
+    }
+
+    @media print {
+        @rules();
+    }
+}
+
+.dark(@rules: {}) {
+    :root:not(.light) & {
+        @rules();
+    }
+}
+
+// TODO: Joinable `dark`.
+
+.light:not(:root) {
+    .dark({
+        display: none;
+    });
+}
+
+.dark:not(:root) {
+    .light({
+        display: none;
+    });
+}
+
+// endregion ## Theme
+
+// region ## Hover interaction
+
+.hover(@rules: {}) {
+    @media (any-hover: hover) {
+        @rules();
+    }
+}
+
+.no-hover(@rules: {}) {
+    @media (any-hover: none) {
+        @rules();
+    }
+}
+
+.hover {
+    .no-hover({
+        display: none;
+    });
+}
+
+.no-hover {
+    .hover({
+        display: none;
+    });
+}
+
+// endregion ## Hover interaction
+
+// region ## Printing
+
+.print(@rules: {}) {
+    @media print {
+        @rules();
+    }
+}
+
+.no-print(@rules: {}) {
+    @media not print {
+        @rules();
+    }
+}
+
+.print {
+    .no-print({
+        display: none;
+    });
+}
+
+.no-print {
+    .print({
+        display: none;
+    });
+}
+
+// endregion ## Printing
+
+// region ## Screen size
+
+// region ### Constants
+
+@min: 50px;
+
+@U: 49px;
+
+@s3: 50px;
+@S3: 199px;
+
+@s2: 200px;
+@S2: 299px;
+
+@s1: 300px;
+@S1: 399px;
+
+@s: 400px;
+@S: 599px;
+
+@m: 600px;
+@M: 799px;
+
+@l: 800px;
+@L: 1199px;
+
+@l1: 1200px;
+@L1: 1899px;
+
+@l2: 1900px;
+@L2: 2499px;
+
+@l3: 2500px;
+
+// endregion ### Constants
+
+// region ### Mixins
+
+// region #### Unsupported
+.u(@rules: {}) {
+    @media (max-width: @U) {
+        @rules();
+    }
+}
+// endregion #### Unsupported
+
+// region #### S3
+
+.s3(@rules: {}) {
+    @media (min-width: @s3) and (max-width: @S3) {
+        @rules();
+    }
+}
+
+.gte-s3(@rules: {}) {
+    @media (min-width: @s3) {
+        @rules();
+    }
+}
+
+// endregion #### S3
+
+// region #### S2
+
+.lte-s2(@rules: {}) {
+    @media (max-width: @S2) {
+        @rules();
+    }
+}
+
+.s2(@rules: {}) {
+    @media (min-width: @s2) and (max-width: @S2) {
+        @rules();
+    }
+}
+
+.gte-s2(@rules: {}) {
+    @media (min-width: @s2) {
+        @rules();
+    }
+}
+
+// endregion #### S2
+
+// region #### S1
+
+.lte-s1(@rules: {}) {
+    @media (max-width: @S1) {
+        @rules();
+    }
+}
+
+.s1(@rules: {}) {
+    @media (min-width: @s1) and (max-width: @S1) {
+        @rules();
+    }
+}
+
+.gte-s1(@rules: {}) {
+    @media (min-width: @s1) {
+        @rules();
+    }
+}
+
+// endregion #### S1
+
+// region #### S
+
+.lte-s(@rules: {}) {
+    @media (max-width: @S) {
+        @rules();
+    }
+}
+
+.s(@rules: {}) {
+    @media (min-width: @s) and (max-width: @S) {
+        @rules();
+    }
+}
+
+.gte-s(@rules: {}) {
+    @media (min-width: @s) {
+        @rules();
+    }
+}
+
+// endregion #### S
+
+// region #### M
+
+.lte-m(@rules: {}) {
+    @media (max-width: @M) {
+        @rules();
+    }
+}
+
+.m(@rules: {}) {
+    @media (min-width: @m) and (max-width: @M) {
+        @rules();
+    }
+}
+
+.gte-m(@rules: {}) {
+    @media (min-width: @m) {
+        @rules();
+    }
+}
+
+// endregion #### M
+
+// region #### L
+
+.lte-l(@rules: {}) {
+    @media (max-width: @L) {
+        @rules();
+    }
+}
+
+.l(@rules: {}) {
+    @media (min-width: @l) and (max-width: @L) {
+        @rules();
+    }
+}
+
+.gte-l(@rules: {}) {
+    @media (min-width: @l) {
+        @rules();
+    }
+}
+
+// endregion #### L
+
+// region #### L1
+
+.lte-l1(@rules: {}) {
+    @media (max-width: @L1) {
+        @rules();
+    }
+}
+
+.l1(@rules: {}) {
+    @media (min-width: @l1) and (max-width: @L1) {
+        @rules();
+    }
+}
+
+.gte-l1(@rules: {}) {
+    @media (min-width: @l1) {
+        @rules();
+    }
+}
+
+// endregion #### L1
+
+// region #### L2
+
+.lte-l2(@rules: {}) {
+    @media (max-width: @L2) {
+        @rules();
+    }
+}
+
+.l2(@rules: {}) {
+    @media (min-width: @l2) and (max-width: @L2) {
+        @rules();
+    }
+}
+
+.gte-l2(@rules: {}) {
+    @media (min-width: @l2) {
+        @rules();
+    }
+}
+
+// endregion #### L2
+
+// region #### L3
+.l3(@rules: {}) {
+    @media (min-width: @l3) {
+        @rules();
+    }
+}
+// endregion #### L3
+
+// endregion ### Mixins
+
+// region ### Classes
+
+// region #### Unsupported
+.u {
+    .gte-s3({
+        display: none;
+    });
+}
+// endregion #### Unsupported
+
+// region #### S3
+
+.s3 {
+    .gte-s2({
+        display: none;
+    });
+
+    .u({
+        display: none;
+    });
+}
+
+.gte-s3 {
+    .u({
+        display: none;
+    });
+}
+
+// endregion #### S3
+
+// region #### S2
+
+.lte-s2 {
+    .gte-s1({
+        display: none;
+    });
+}
+
+.s2 {
+    .gte-s1({
+        display: none;
+    });
+
+    .s3({
+        display: none;
+    });
+
+    .u({
+        display: none;
+    });
+}
+
+.gte-s2 {
+    .s3({
+        display: none;
+    });
+
+    .u({
+        display: none;
+    });
+}
+
+// endregion #### S2
+
+// region #### S1
+
+.lte-s1 {
+    .gte-s({
+        display: none;
+    });
+}
+
+.s1 {
+    .gte-s({
+        display: none;
+    });
+
+    .lte-s2({
+        display: none;
+    });
+}
+
+.gte-s1 {
+    .lte-s2({
+        display: none;
+    });
+}
+
+// endregion #### S1
+
+// region #### S
+
+.lte-s {
+    .gte-m({
+        display: none;
+    });
+}
+
+.s {
+    .gte-m({
+        display: none;
+    });
+
+    .lte-s1({
+        display: none;
+    });
+}
+
+.gte-s {
+    .lte-s1({
+        display: none;
+    });
+}
+
+// endregion #### S
+
+// region #### M
+
+.lte-m {
+    .gte-l({
+        display: none;
+    });
+}
+
+.m {
+    .gte-l({
+        display: none;
+    });
+
+    .lte-s({
+        display: none;
+    });
+}
+
+.gte-m {
+    .lte-s({
+        display: none;
+    });
+}
+
+// endregion #### M
+
+// region #### L
+
+.lte-l {
+    .gte-l1({
+        display: none;
+    });
+}
+
+.l {
+    .gte-l1({
+        display: none;
+    });
+
+    .lte-m({
+        display: none;
+    });
+}
+
+.gte-l {
+    .lte-m({
+        display: none;
+    });
+}
+
+// endregion #### L
+
+// region #### L1
+
+.lte-l1 {
+    .gte-l2({
+        display: none;
+    });
+}
+
+.l1 {
+    .gte-l2({
+        display: none;
+    });
+
+    .lte-l({
+        display: none;
+    });
+}
+
+.gte-l1 {
+    .lte-l({
+        display: none;
+    });
+}
+
+// endregion #### L1
+
+// region #### L2
+
+.lte-l2 {
+    .l3({
+        display: none;
+    });
+}
+
+.l2 {
+    .l3({
+        display: none;
+    });
+
+    .lte-l1({
+        display: none;
+    });
+}
+
+.gte-l2 {
+    .lte-l1({
+        display: none;
+    });
+}
+
+// endregion #### L2
+
+// region #### L3
+.l3 {
+    .lte-l2({
+        display: none;
+    });
+}
+// endregion #### L3
+
+// endregion ### Classes
+
+// endregion ## Screen size
+
+// region ## DPI
+
+.dppx1(@rules: {}) {
+    @media (min-resolution: 1dppx) and (max-resolution: 1dppx) {
+        @rules();
+    }
+}
+
+.dppx2(@rules: {}) {
+    @media (min-resolution: 2dppx) and (max-resolution: 2dppx) {
+        @rules();
+    }
+}
+
+.dppx3(@rules: {}) {
+    @media (min-resolution: 3dppx) and (max-resolution: 3dppx) {
+        @rules();
+    }
+}
+
+.dppx4(@rules: {}) {
+    @media (min-resolution: 4dppx) and (max-resolution: 4dppx) {
+        @rules();
+    }
+}
+
+.dppx1 {
+    .dppx2({
+        display: none;
+    });
+
+    .dppx3({
+        display: none;
+    });
+
+    .dppx4({
+        display: none;
+    });
+}
+
+.dppx2 {
+    .dppx1({
+        display: none;
+    });
+
+    .dppx3({
+        display: none;
+    });
+
+    .dppx4({
+        display: none;
+    });
+}
+
+.dppx3 {
+    .dppx1({
+        display: none;
+    });
+
+    .dppx2({
+        display: none;
+    });
+
+    .dppx4({
+        display: none;
+    });
+}
+
+.dppx4 {
+    .dppx1({
+        display: none;
+    });
+
+    .dppx2({
+        display: none;
+    });
+
+    .dppx3({
+        display: none;
+    });
+}
+
+// endregion ## DPI
+
+// endregion # Media
+
+// region # Global styles
+
+* {
+    margin: 0;
+    padding: 0;
+    border: none;
+    box-sizing: border-box;
+    font-family: @font-family;
+    font-size: @font-size;
+    font-weight: @font-weight;
+    line-height: @font-height;
+
+    &::selection {
+        text-shadow: initial;
+        background-color: #000;
+        color: #fff;
+    }
+}
+
+html,
+body,
+#root {
+    width: 100%;
+}
+
+body {
+    color: @dark-fg;
+    background-color: @dark-bg;
+
+    :root.menu & {
+        overflow-y: hidden;
+    }
+
+    .light({
+        color: @light-fg;
+        background-color: @light-bg;
+    });
+}
+
+a {
+    color: @dark-plain-fg-primary;
+
+    .light({
+        color: @light-plain-fg-primary;
+    });
+
+    &:focus {
+        outline: none;
+        border-radius: @cell-s4;
+
+        .keyboard({
+            box-shadow: @dark-focus-primary;
+
+            .light(true, {
+                box-shadow: @light-focus-primary;
+            });
+        });
+    }
+}
+
+@viewport {
+    max-zoom: 1;
+    min-zoom: 1;
+}
+
+// TODO: Scrollbars.
+
+// endregion # Global styles

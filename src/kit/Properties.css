@@ -1,0 +1,19 @@
+@import (less) './Theme.css';
+
+.Properties {
+    display: table;
+
+    &__Item {
+        display: table-row;
+    }
+
+    &__K {
+        display: table-cell;
+        padding-right: @cell-s2;
+        font-weight: 500;
+    }
+
+    &__V {
+        display: table-cell;
+    }
+}

@@ -1,0 +1,46 @@
+@import (less) './Theme.css';
+
+.H {
+    padding: 0 @cell-s2;
+    box-shadow: inset 4px 0 0 -3px fade(@dark-fg, 66.67%);
+
+    .light({
+        box-shadow: inset 4px 0 0 -3px fade(@light-fg, 66.67%);
+    });
+
+    &_level_1 {
+        font-size: @font-size * 2;
+        line-height: @font-height * 2;
+        font-weight: 100;
+    }
+
+    &_level_2 {
+        font-size: @font-size * 1.5;
+        line-height: @font-height * 1.5;
+        font-weight: 200;
+    }
+
+    &_level_3 {
+        font-size: @font-size * 1.25;
+        line-height: @font-height * 1.25;
+        font-weight: 300;
+    }
+
+    &_level_4 {
+        font-size: @font-size * 1.25;
+        line-height: @font-height * 1.25;
+        font-weight: 400;
+    }
+
+    &_level_5 {
+        font-size: @font-size * 1.25;
+        line-height: @font-height * 1.25;
+        font-weight: 500;
+    }
+
+    &_level_6 {
+        font-size: @font-size;
+        line-height: @font-height;
+        font-weight: 700;
+    }
+}

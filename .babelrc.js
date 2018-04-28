@@ -8,30 +8,12 @@ module.exports = {
                 shippedProposals: true,
             },
         ],
-        '@babel/flow',
         '@babel/react',
-        '@babel/stage-0',
-    ],
-    plugins: [
+        '@babel/typescript',
         [
-            'emotion',
+            '@babel/stage-0',
             {
-                hoist: true,
-                sourceMap: true,
-                autoLabel: true,
-                labelFormat: '[filename]--[local]',
-            },
-        ],
-        [
-            'lodash',
-            {
-                id: ['recompose'],
-            },
-        ],
-        [
-            'ramda',
-            {
-                useES: true,
+                decoratorsLegacy: true,
             },
         ],
     ],

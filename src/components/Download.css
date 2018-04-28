@@ -1,0 +1,7 @@
+@import (less) '../kit/Theme.css';
+
+.Download {
+    .Button {
+        cursor: pointer;
+    }
+}

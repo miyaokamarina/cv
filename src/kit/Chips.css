@@ -1,0 +1,14 @@
+@import (less) './Theme.css';
+
+.Chips {
+    display: flex;
+    flex-wrap: wrap;
+    margin: -@cell-s5;
+
+    &__Item:extend(.static all) {
+        display: inline;
+        padding: 0 @cell-s2;
+        margin: @cell-s5;
+        border-radius: @cell-s2;
+    }
+}

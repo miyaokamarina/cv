@@ -1,0 +1,38 @@
+@import (less) '../kit/Theme.css';
+
+.Aside {
+    .gte-l1({
+        @31cell: @cell * 31;
+
+        position: fixed;
+        left: ~'calc((100% + @{31cell}) / 2)';
+        top: @cell-s2;
+        bottom: @cell-s2;
+        overflow-y: auto;
+        overflow-x: visible;
+        width: @cell * 13.5;
+        padding: @cell-s2 @cell @cell-s2 @cell-s2;
+    });
+
+    .lte-l({
+        margin-bottom: @cell-i-l2 + @cell-s2 * 2;
+        width: @cell * 13;
+
+        .touch({
+            margin-bottom: @cell-t-l2 + @cell-s2 * 2;
+        });
+    });
+
+    &__Filters {
+        display: flex;
+        flex-direction: column;
+
+        & > .Checkbox {
+            width: max-content;
+
+            .touch({
+                width: auto;
+            });
+        }
+    }
+}

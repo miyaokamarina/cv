@@ -1,0 +1,26 @@
+@import (less) './Theme.css';
+
+.Checkbox:extend(.plain all):extend(.glow all):extend(.focus all) {
+    display: inline-block;
+    padding: 0 @cell-i-s2 - @cell-i-s4 0 @cell-i-s3;
+    border-radius: @cell-s4;
+    background-color: transparent;
+    user-select: none;
+
+    &:focus {
+        outline: none;
+        z-index: 1;
+    }
+
+    .touch({
+        padding: @cell-s3 @cell-t-s3;
+    });
+
+    .Icon {
+        margin-right: @cell-i-s3 - @cell-i-s5;
+
+        .touch({
+            margin-right: @cell-t-s3 - @cell-t-s5;
+        });
+    }
+}

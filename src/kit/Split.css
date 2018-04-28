@@ -1,0 +1,9 @@
+@import (less) './Theme.css';
+
+.Split {
+    display: flex;
+
+    &__Item {
+        flex-grow: 1;
+    }
+}

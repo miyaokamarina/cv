@@ -1,0 +1,17 @@
+@import (less) './Theme.css';
+
+.Ul {
+    &__Item {
+        display: block;
+        padding-left: @cell;
+
+        &::before {
+            content: '•';
+            display: inline-block;
+            width: @cell;
+            height: @cell;
+            margin-left: -@cell;
+            text-align: center;
+        }
+    }
+}

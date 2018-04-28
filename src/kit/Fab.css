@@ -1,0 +1,28 @@
+@import (less) './Theme.css';
+
+.Fab:extend(.active all):extend(.glow all):extend(.focus all) {
+    width: @cell-i-l2;
+    height: @cell-i-l2;
+    position: fixed;
+    text-align: center;
+    border-radius: 50%;
+    user-select: none;
+
+    box-shadow: 0 2px 7px 1px rgba(0, 0, 0, 0.67);
+
+    & > .Icon {
+        line-height: @cell-i-l2;
+        font-size: @font-size-l1;
+        text-align: center;
+        width: 100%;
+    }
+
+    .touch({
+        width: @cell-t-l2;
+        height: @cell-t-l2;
+
+        & > .Icon {
+            line-height: @cell-t-l2;
+        }
+    });
+}

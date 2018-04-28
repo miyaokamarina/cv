@@ -1,0 +1,28 @@
+@import (less) '../kit/Theme.css';
+
+.Buzzwords {
+    justify-content: center;
+
+    &__Rainbow {
+        .outline(#fff, 2px);
+
+        color: #00f !important;
+        box-shadow: 0 0 transparent !important;
+        background-image: linear-gradient(
+            90deg,
+            #ff0000 000%,
+            #ff0000 016.67%,
+            #ff8000 016.67%,
+            #ff8000 033.33%,
+            #ffff00 033.33%,
+            #ffff00 050%,
+            #1fb557 050%,
+            #1fb557 066.67%,
+            #4040ff 066.67%,
+            #4040ff 083.33%,
+            #ff00ff 083.33%,
+            #ff00ff 100%
+        );
+        font-weight: 700 !important;
+    }
+}

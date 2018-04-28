@@ -1,0 +1,6 @@
+@import (less) './Theme.css';
+
+.Emoji {
+    width: 16px;
+    vertical-align: -4px;
+}
