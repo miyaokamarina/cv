@@ -16,10 +16,9 @@ import { App } from './App';
 import './fonts';
 
 const isEn = (x: string) => /^en/.test(x);
-const isJa = (x: string) => /^ja/.test(x);
 const isRu = (x: string) => /^ru/.test(x);
-const isAny = (x: string) => isEn(x) || isJa(x) || isRu(x);
-const toAny = (x: string): LanguageTag => isRu(x) ? 'ru' : isJa(x) ? 'ja-u-nu-fullwide' : 'en';
+const isAny = (x: string) => isEn(x) || isRu(x);
+const toAny = (x: string): LanguageTag => isRu(x) ? 'ru' : 'en';
 
 const detectLang = (): LanguageTag => {
     if (isAny(navigator.language)) {
@@ -39,7 +38,7 @@ const restoreLang = () => {
     const lang = localStorage.getItem('lang');
 
     switch (lang) {
-        case 'ja-u-nu-fullwide':
+        // case 'ja-u-nu-fullwide':
         case 'ru':
             setLocale(lang);
             break;
