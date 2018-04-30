@@ -6,6 +6,7 @@ import { Level } from '../kit/Level';
 import { withState } from '../kit/Connect';
 import { cn } from '../fn/cn';
 import { Buzzword, Category } from '../data/buzzwords';
+import { name } from '../hoc/name';
 
 import './Buzzwords.css';
 
@@ -25,12 +26,14 @@ const buzzwordsFilter = (categories: Category[], buzzwordsLevels: { [P in Level]
     return false;
 };
 
-export const Buzzwords = withState<State, {}>(({ state: { buzzwords, categories, buzzwordsLevels } }) => (
+const mapStateToProps = ({ buzzwords, categories, buzzwordsLevels }: State) => ({ buzzwords, categories, buzzwordsLevels });
+
+export const Buzzwords = withState(mapStateToProps)(name('Buzzwords')(({ buzzwords, categories, buzzwordsLevels }) => (
     <Chips {...cn('Buzzwords')}>
-        {buzzwords.filter(buzzwordsFilter(categories, buzzwordsLevels)).map(({ key, title, level, rainbow }) => (
+        {buzzwords.filter(buzzwordsFilter(categories, buzzwordsLevels)).map(({ key, title, level, rainbow }: Buzzword) => (
             <Chips.Item key={key} level={level} {...cn(rainbow ? 'Buzzwords__Rainbow' : '')}>
                 {title}
             </Chips.Item>
         ))}
     </Chips>
-));
+)));

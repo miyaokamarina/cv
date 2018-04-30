@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Store, AnyAction } from 'redux';
+import { pure } from 'recompose';
 
 // TODO: Exclude `NoState` from `State`.
 
@@ -12,13 +13,9 @@ type ProviderState<State> = {
     state: State | NoState;
 };
 
-type ConsumerProps<State> = { children: (callbackfn: State) => React.ReactNode };
+type ConsumerProps<State> = { children: (f: State) => React.ReactNode };
 
 type NoState = 'miyamarisubs/connect.NoState';
-
-type ConnectInjectedProps<State> = {
-    state: State;
-};
 
 const noState: NoState = 'miyamarisubs/connect.NoState';
 
@@ -60,12 +57,12 @@ export class Connect<State> extends React.PureComponent<ConsumerProps<State>> {
     }
 }
 
-export const withState = <State, OriginalProps extends {}>(
-    Component: React.ComponentType<OriginalProps & ConnectInjectedProps<State>>,
-): React.ComponentType<OriginalProps> => {
-    const WithConnect = (props: OriginalProps) => <Connect>{state => <Component {...props} state={state as State} />}</Connect>;
+export const withState = <State extends {}, InjectedProps extends {}, OriginalProps extends {}>(f: (state: State) => InjectedProps) => (
+    Component: React.ComponentType<OriginalProps & InjectedProps>,
+) => {
+    const WithState = (props: OriginalProps) => <Connect>{(state: State) => <Component {...props} {...f(state)} />}</Connect>;
 
-    (WithConnect as any).displayName = `withConnect(${Component.displayName || Component.name || 'Unknown'})`;
+    (WithState as any).displayName = `withState(${Component.displayName || Component.name || 'Unknown'})`;
 
-    return WithConnect;
+    return pure(WithState);
 };

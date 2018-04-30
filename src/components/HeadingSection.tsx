@@ -10,46 +10,19 @@ import { withTl } from '../kiririntl';
 import { cn } from '../fn/cn';
 import { LeftTable } from './LeftTable';
 import { RightTable } from './RightTable';
+import { name } from '../hoc/name';
 
 import './HeadingSection.css';
 
-export const HeadingSection = withTl(({ tl }) => (
-    <Section aria-label={tl`Yuri Zemskov, the JS magical girl` as string} {...cn('HeadingSection')}>
-        <H level={1}>{tl`Yuri Zemskov, the JS magical girl`}</H>
-        <div {...cn('print')}>
-            <Split>
-                <Split.Item>
-                    <Avatar />
-                </Split.Item>
-                <Split.Item>
-                    <Properties>
-                        <LeftTable />
-                    </Properties>
-                </Split.Item>
-                <Split.Item>
-                    <Properties>
-                        <RightTable />
-                    </Properties>
-                </Split.Item>
-            </Split>
-        </div>
-        <div {...cn('no-print', 'lte-s')}>
-            <Center>
-                <Avatar />
-            </Center>
-            <Center>
-                <Properties>
-                    <LeftTable />
-                    <RightTable />
-                </Properties>
-            </Center>
-        </div>
-        <div {...cn('no-print', 'gte-m')}>
-            <Center>
-                <Avatar />
-            </Center>
-            <Center>
+export const HeadingSection = withTl(
+    name('HeadingSection')(({ tl }) => (
+        <Section aria-label={tl`Yuri Zemskov, the JS magical girl` as string} {...cn('HeadingSection')}>
+            <H level={1}>{tl`Yuri Zemskov, the JS magical girl`}</H>
+            <div {...cn('print')}>
                 <Split>
+                    <Split.Item>
+                        <Avatar />
+                    </Split.Item>
                     <Split.Item>
                         <Properties>
                             <LeftTable />
@@ -61,7 +34,37 @@ export const HeadingSection = withTl(({ tl }) => (
                         </Properties>
                     </Split.Item>
                 </Split>
-            </Center>
-        </div>
-    </Section>
-));
+            </div>
+            <div {...cn('no-print', 'lte-s')}>
+                <Center>
+                    <Avatar />
+                </Center>
+                <Center>
+                    <Properties>
+                        <LeftTable />
+                        <RightTable />
+                    </Properties>
+                </Center>
+            </div>
+            <div {...cn('no-print', 'gte-m')}>
+                <Center>
+                    <Avatar />
+                </Center>
+                <Center>
+                    <Split>
+                        <Split.Item>
+                            <Properties>
+                                <LeftTable />
+                            </Properties>
+                        </Split.Item>
+                        <Split.Item>
+                            <Properties>
+                                <RightTable />
+                            </Properties>
+                        </Split.Item>
+                    </Split>
+                </Center>
+            </div>
+        </Section>
+    )),
+);

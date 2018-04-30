@@ -7,6 +7,7 @@ max-lines: off,
 
 import * as React from 'react';
 import { createStore, Store } from 'redux';
+import { pure } from 'recompose';
 
 // region # Types
 
@@ -516,9 +517,9 @@ export class Kiririn extends React.PureComponent<ConsumerProps> {
     }
 }
 
-export const subscribe = (callbackfn: (state: State) => any) =>
+export const subscribe = (f: (state: State) => any) =>
     store.subscribe(() => {
-        callbackfn(store.getState());
+        f(store.getState());
     });
 
 // endregion # Provider
@@ -531,6 +532,6 @@ export const withTl = <OriginalProps extends {}>(
 
     (WithTl as any).displayName = `withTl(${Component.displayName || Component.name || 'Unknown'})`;
 
-    return WithTl;
+    return pure(WithTl);
 };
 // endregion # HOC
